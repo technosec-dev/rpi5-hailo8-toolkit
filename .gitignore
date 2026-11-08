@@ -1,0 +1,8 @@
+# Compiled models are Hailo's, downloaded from the Model Zoo, not redistributed.
+*.hef
+
+# Build output, if you build next to the checkout.
+build/
+*.wic
+*.wic.bz2
+*.wic.bmap

@@ -1,0 +1,14 @@
+[Unit]
+Description=Exein Pulsar runtime security agent
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/pulsard
+# Fails the start when process-monitor did not start, so Restart= tries again.
+ExecStartPost=@LIBEXECDIR@/rpi5-pulsar-service/pulsar-check-modules
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

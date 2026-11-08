@@ -1,0 +1,29 @@
+#!/bin/sh
+# ExecStartPost for pulsar.service: fail the start when Pulsar's process-monitor
+# did not start, so Restart=on-failure starts pulsard again
+# (https://github.com/exein-io/pulsar/issues/377).
+#
+# If the state is still unknown after PULSAR_CHECK_TIMEOUT seconds, pulsard is
+# left running: this check must never be the reason the agent is down.
+
+timeout=${PULSAR_CHECK_TIMEOUT:-60}
+
+elapsed=0
+while [ "$elapsed" -lt "$timeout" ]; do
+    state=$(pulsar status 2>/dev/null | grep '^| *process-monitor ' |
+        sed -e 's/^| *process-monitor *| *//' -e 's/ *|$//')
+    case "$state" in
+        Failed*)
+            echo "process-monitor did not start, restarting pulsard: $state" >&2
+            exit 1
+            ;;
+        Running*)
+            exit 0
+            ;;
+    esac
+    sleep 1
+    elapsed=$((elapsed + 1))
+done
+
+echo "process-monitor state unknown after ${timeout}s (last: '${state}'), leaving pulsard running" >&2
+exit 0
