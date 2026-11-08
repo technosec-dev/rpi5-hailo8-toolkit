@@ -32,6 +32,13 @@ programs loaded.
 - this guide: the layers and revisions, the configuration, and what the board
   tells you when it works and when it does not.
 
+If you would rather be walked through it in order, with the reasoning for each
+step rather than the reference for it, there is a write-up of the whole thing:
+[Yocto wrynose for the Raspberry Pi 5 and the Hailo-8 AI HAT+](https://embedforge.io/blog/raspberry-pi-5-hailo-8-yocto).
+It covers the same ground as this README, from the layers to a model running on
+the Hailo-8, and the optional Pulsar agent. Read it for the path, come back here
+for the detail.
+
 ## What you need
 
 - A **Raspberry Pi 5**.
